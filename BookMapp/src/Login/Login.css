@@ -1,0 +1,249 @@
+:root {
+  /* Main color accents */
+  --Blue-1: #00c4f8;
+  --Blue-2: #008ad3;
+  /* Card backgrounds */
+  --Card-Basic: #1b1b1b;
+  /* Common gradient */
+  --Gradient1: #000e29;
+  --Gradient2: #005ee7;
+  --Gradient3: #00d4ff;
+  /* Common text */
+  --Text-White: #ffffff;
+  --Text-Blue: #00d4ff;
+  /* Basic background 'filler' space */
+  --Background: #0a0a0a;
+}
+
+/* Container that holds the LogSingin box */
+.LogSignContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--Background);
+  height: 100vh;
+  width: 95vw;
+  margin-left: 5vw;
+  gap: 50px;
+}
+
+/* The visable box that contains the text boxes */
+.LogSignPage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 85%;
+  width: 45vw;
+  border-radius: 100px;
+}
+
+.LogSignPage h1 {
+  color: var(--Text-Blue);
+  font-size: 3rem;
+  margin: 20px;
+}
+
+.UP-Container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 60%;
+  height: 7.5%;
+  text-align: left;
+}
+
+.UP-Container h2 {
+  font-family: "Teko", sans-serif;
+  font-size: 2rem;
+  color: var(--Text-Blue);
+  margin: 10px;
+  margin-left: 0px;
+  opacity: 75%;
+}
+
+.WhatIsThis {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  width: 45vw;
+  height: 85%;
+  background-color: var(--Card-Basic);
+  border-radius: 100px;
+}
+
+.WhatIsThis::before {
+  content: "";
+  position: absolute;
+  border-radius: 100px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 14, 41, 0.5),
+    rgba(0, 95, 231, 0.5) 50%,
+    rgba(0, 212, 255, 0.5)
+  );
+}
+
+.WhatIsThis-H1Main {
+  position: relative;
+  display: flex;
+  width: 80%;
+  height: 40%;
+  align-items: center;
+  justify-content: center;
+}
+
+.WhatIsThis-H1Main h1 {
+  font-family: "Teko", sans-serif;
+  font-size: 5rem;
+  color: var(--Blue-2);
+  text-shadow: 0 0 10px rgba(0, 138, 211, 0.45),
+    0 0 20px rgba(0, 138, 211, 0.45);
+
+  text-align: center;
+}
+
+.WhatIsThis-H2 {
+  position: relative;
+  display: flex;
+  width: 80%;
+  height: 55%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(10, 10, 10, 0.75);
+  border-radius: 100px;
+  padding: 10px;
+}
+
+.WhatIsThis-H2 p {
+  font-size: 2.8rem;
+  color: var(--Text-Blue);
+  opacity: 0.8;
+  text-align: center;
+}
+
+.LogSignPage input {
+  width: 100%;
+  font-size: 2rem;
+  font-family: "Teko", sans-serif;
+}
+
+.input-group {
+  z-index: 1;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The input group is the text boxes the are used to send the username and password */
+.input-group input {
+  width: 60%;
+  height: 65%;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--Blue-1);
+  margin: 10px;
+  color: white;
+}
+
+.input-group input::placeholder {
+  color: black;
+}
+.Button-Container-Login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+}
+/* The button that either logs the user in or signs them up */
+.loginOrSign {
+  position: relative;
+  font-family: "Teko", sans-serif;
+  font-size: 1.3rem;
+  color: #1b1b1b;
+  width: 60%;
+  height: 40%;
+  background: var(--Blue-1);
+  border-radius: 50px;
+  border: none;
+  z-index: 1;
+  transition: 1s ease-in-out background, 1s ease-in-out box-shadow;
+}
+/* The switch button */
+.Switch {
+  position: relative;
+  font-family: "Teko", sans-serif;
+  font-size: 1.3rem;
+  background-color: var(--Gradient2);
+  border: none;
+  border-radius: 50px;
+  height: 25%;
+  width: 40%;
+  color: #1b1b1b;
+  z-index: 1;
+  bottom: 15px;
+  transition: 1s ease-in-out background-color;
+}
+
+.Switch:hover {
+  background-color: var(--Text-Blue);
+}
+
+.loginOrSign:hover {
+  box-shadow: 0 0 10px 5px var(--Blue-1);
+  background: var(--Blue-2);
+}
+/* Animations to notifiy the user if something was successful */
+.AnimatePulseRed {
+  animation: PulseRed 3s ease-in-out;
+}
+.AnimatePulseGreen {
+  animation: PulseGreen 3s ease-in-out;
+}
+
+/* Pulse indicators */
+@keyframes PulseRed {
+  0% {
+    border-color: hsl(0, 100%, 80%);
+  }
+  25% {
+    border-color: hsl(0, 100%, 75%);
+  }
+  50% {
+    border-color: hsl(0, 100%, 70%);
+  }
+  75% {
+    border-color: hsl(0, 100%, 65%);
+  }
+  100% {
+    border-color: hsl(0, 100%, 60%);
+  }
+}
+
+@keyframes PulseGreen {
+  0% {
+    border-color: hsl(120, 100%, 85%);
+  }
+  25% {
+    border-color: hsl(120, 100%, 80%);
+  }
+  50% {
+    border-color: hsl(120, 100%, 75%);
+  }
+  75% {
+    border-color: hsl(120, 100%, 70%);
+  }
+  100% {
+    border-color: hsl(120, 100%, 60%);
+  }
+}

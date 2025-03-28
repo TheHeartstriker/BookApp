@@ -1,0 +1,127 @@
+:root {
+  /* Main color accents */
+  --Blue-1: #00c4f8;
+  --Blue-2: #008ad3;
+  /* Card backgrounds */
+  --Card-Basic: #1b1b1b;
+  /* Common gradient */
+  --Gradient1: #000e29;
+  --Gradient2: #005ee7;
+  --Gradient3: #00d4ff;
+  /* Common text */
+  --Text-White: #ffffff;
+  --Text-Blue: #00d4ff;
+  /* Basic background 'filler' space */
+  --Background: #0a0a0a;
+  --Nav-Background: #000000;
+}
+
+.NavContainer {
+  position: fixed;
+  width: 5vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--Nav-Background);
+  z-index: 999;
+}
+
+.Ball {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: var(--Text-Blue);
+  cursor: pointer;
+}
+
+.NavContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 45%;
+}
+
+.NavIcon {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out,
+    border-left 0.3s ease-in-out, color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.NavIcon h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--Text-White);
+  opacity: 0.7;
+}
+
+.Icon {
+  width: 40%;
+  height: 40%;
+  opacity: 0.5;
+  color: var(--Blue-2);
+}
+
+.NavIcon:hover {
+  background-color: var(--Card-Basic);
+  border-left: var(--Blue-1) 5px solid;
+  opacity: 1;
+}
+
+.NavIcon:hover .Icon {
+  opacity: 1;
+  color: var(--Blue-1);
+}
+
+.NavIcon:hover h1 {
+  opacity: 1;
+}
+
+.NavIcon.Active {
+  background-color: var(--Card-Basic);
+  border-left: var(--Blue-1) 5px solid;
+  opacity: 1;
+}
+
+.NavIcon.Active h1 {
+  opacity: 1;
+}
+
+.NavIcon.Active .Icon {
+  opacity: 1;
+  color: var(--Blue-1);
+}
+
+.GithubIcon {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 10%;
+  background-image: url("../Images/Github.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  .NavContainer {
+    width: 10vw;
+  }
+}

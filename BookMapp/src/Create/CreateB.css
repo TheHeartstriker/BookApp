@@ -1,0 +1,97 @@
+/* Create todo styles */
+:root {
+  --Dark-pink: hsl(340, 76%, 50%);
+  --Light-pink: hsl(355, 100%, 81%);
+  --Middle-Pink: #ff577e;
+  --Cyan: rgb(43, 195, 226);
+  --Light-Cyan: rgb(150, 195, 226);
+  /* Neutral silver blue */
+  --Silver-Blue: rgb(200, 255, 250);
+}
+
+.CreatorContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* The box that containers the container related elements */
+.Creator {
+  width: 80vw;
+  height: 70vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid lightpink;
+  border-radius: 10px;
+  background-color: hsl(0, 5%, 15%);
+  color: #ffffff;
+  padding: 10px;
+}
+
+.animate-border {
+  animation: borderColorCycle 1.5s linear;
+}
+
+@keyframes borderColorCycle {
+  0% {
+    border-color: lightpink;
+  }
+  25% {
+    border-color: lightblue;
+  }
+  50% {
+    border-color: lightgreen;
+  }
+  75% {
+    border-color: lightyellow;
+  }
+  100% {
+    border-color: lightpink;
+  }
+}
+/* The add button in the bottom left */
+.Add {
+  height: 75px;
+  width: 75px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  border: 5px solid var(--Silver-Blue);
+  border-radius: 50%;
+  background-image: radial-gradient(circle, var(--Cyan), hsl(340, 76%, 50%));
+}
+
+/* The button in the bottom right */
+.Reset {
+  height: 75px;
+  width: 75px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border: 5px solid var(--Silver-Blue);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--Cyan), hsl(340, 76%, 50%));
+}
+
+/* Typing boxes */
+/* Top task in parent element */
+.HeaderTask {
+  margin: 20px;
+  border: none;
+  background-color: hsla(340, 76%, 50%, 0.5);
+  border-radius: 5px;
+  height: 10%;
+  text-align: center;
+}
+/* Bottom text box */
+.DescriptTask {
+  border: none;
+  background-color: hsla(355, 100%, 81%, 0.5);
+  border-radius: 5px;
+  height: 70%;
+  text-align: center;
+}
