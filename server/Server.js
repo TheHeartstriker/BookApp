@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 //Import database functions
-import { checkUsername, GetUserId } from "./DbFunctions.js";
+import { checkUsername, GetUserId, AddBook } from "./DbFunctions.js";
 //Import auth functions
 import { login, signup, authenticateJWT } from "./Auth.js";
 
@@ -104,6 +104,35 @@ app.post("/api/checkUsername", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send({ message: "Internal server error", error });
+  }
+});
+
+app.post("/api/addBook", async (req, res) => {
+  const { BookId, BookName, Description } = req.body;
+  try {
+    // Check if userIdGet is set before proceeding
+    if (!userIdGet) {
+      return res.status(401).send({ message: "User not authenticated" });
+    }
+
+    // Validate BookName and Description
+    if (!BookName || BookName.length > 149 || Description.length > 499) {
+      return res.status(400).send({
+        message:
+          "Book name must not exceed 149 characters, and description must not exceed 499 characters.",
+      });
+    }
+
+    // Call the AddBook function to insert the book into the database
+    await AddBook({ BookId, BookName, Description }, userIdGet);
+    res.status(201).send({ message: "Book added successfully" });
+  } catch (error) {
+    // Handle any errors that may occur during the database operation
+    console.error("Error adding book:", error);
+    res.status(500).send({
+      message: "Internal server error while adding the book",
+      error,
+    });
   }
 });
 

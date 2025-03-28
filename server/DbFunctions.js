@@ -35,4 +35,18 @@ async function GetUserId(username, password) {
   }
 }
 
-export { checkUsername, GetUserId };
+async function AddBook(BookData, UId) {
+  try {
+    const { BookId, BookName, Description } = BookData;
+    const [result] = await pool.query(
+      `INSERT INTO books (BookId, BookName, Description, UserId) VALUES (?, ?, ?, ?)`,
+      [BookId, BookName, Description, dateGet]
+    );
+    return result;
+  } catch (error) {
+    console.error("Error inserting book into database:", error);
+    throw error;
+  }
+}
+
+export { checkUsername, GetUserId, AddBook };
