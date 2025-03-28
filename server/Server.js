@@ -5,7 +5,12 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 //Import database functions
-import { checkUsername, GetUserId, AddBook } from "./DbFunctions.js";
+import {
+  checkUsername,
+  GetUserId,
+  AddBook,
+  getBookData,
+} from "./DbFunctions.js";
 //Import auth functions
 import { login, signup, authenticateJWT } from "./Auth.js";
 
@@ -42,18 +47,15 @@ app.listen(PORT, () => {
 
 //Stores the user id for the current user
 let userIdGet = "";
-//Stores the date for the current user
-let dateGet = "";
 
 // Sends username and login to the database and if successful sends the user id back to the front
 app.post("/api/login", async (req, res) => {
-  const { username, password, date } = req.body;
+  const { username, password } = req.body;
   try {
     const result = await login(username, password);
     if (result) {
       const userId = await GetUserId(username, password);
       userIdGet = userId;
-      dateGet = date;
       const token = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1h",
       });
@@ -73,10 +75,9 @@ app.post("/api/login", async (req, res) => {
 
 // Simply sends a username and password to the database to be inserted
 app.post("/api/signup", async (req, res) => {
-  const { username, password, UserId, date } = req.body;
+  const { username, password, UserId } = req.body;
   try {
     userIdGet = UserId;
-    dateGet = date;
     await signup(username, password, UserId);
     const token = jwt.sign({ UserId }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
@@ -136,4 +137,23 @@ app.post("/api/addBook", async (req, res) => {
   }
 });
 
-export { pool, userIdGet, dateGet };
+app.get("/api/getBookData", authenticateJWT, async (req, res) => {
+  try {
+    if (!userIdGet) {
+      return res.status(401).send({ message: "User not authenticated" });
+    }
+    // Fetch book data for the authenticated user
+    console.log(userIdGet);
+    const results = await getBookData(userIdGet);
+    // Send the results back to the client
+    res.status(200).send(results);
+  } catch (error) {
+    console.error("Error fetching book data:", error);
+    res.status(500).send({
+      message: "Internal server error while fetching book data",
+      error,
+    });
+  }
+});
+
+export { pool, userIdGet };

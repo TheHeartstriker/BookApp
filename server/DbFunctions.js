@@ -1,4 +1,4 @@
-import { pool, dateGet } from "./server.js";
+import { pool } from "./server.js";
 
 //Sees if the username is already in use
 async function checkUsername(username) {
@@ -40,7 +40,7 @@ async function AddBook(BookData, UId) {
     const { BookId, BookName, Description } = BookData;
     const [result] = await pool.query(
       `INSERT INTO books (BookId, BookName, Description, UserId) VALUES (?, ?, ?, ?)`,
-      [BookId, BookName, Description, dateGet]
+      [BookId, BookName, Description, UId]
     );
     return result;
   } catch (error) {
@@ -49,4 +49,17 @@ async function AddBook(BookData, UId) {
   }
 }
 
-export { checkUsername, GetUserId, AddBook };
+async function getBookData(UserId) {
+  try {
+    const [results] = await pool.query(`SELECT * FROM books WHERE UserId = ?`, [
+      UserId,
+    ]);
+    console.log("Retrieved book data:", results); // Log the results for debugging
+    return results;
+  } catch (error) {
+    console.error("Error fetching book data from database:", error);
+    throw error;
+  }
+}
+
+export { checkUsername, GetUserId, AddBook, getBookData };

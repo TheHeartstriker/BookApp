@@ -14,16 +14,16 @@ function ViewBooks() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     };
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/getSharedData`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/getBookData`,
         options
       );
       const data = await response.json();
-      const sortedData = await SortByUserName(data);
-      setData(sortedData);
-      setDataFetched(true);
+      console.log("Fetched data:", data);
+      setItem(data);
     } catch (error) {
       console.error(error);
     }
@@ -43,16 +43,22 @@ function ViewBooks() {
       },
     ]);
   }
+
+  useEffect(() => {
+    console.log(item);
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("Item updated:", item);
+  }, [item]);
+
   return (
     <div className="ShareContainer">
       {item.map((item) => (
-        <div className="Item" key={item.id}>
-          <h1>{item.Name}</h1>
-          <h3>Total Time tracked: {item.TotalTime}</h3>
-          <h3>Days tracked: {item.Days}</h3>
-          <h3>Avg Zone: {item.Avgzone}</h3>
-          <h3>Heart Rate: {item.HeartRate}</h3>
-          <h3>Total estimated calories burned: {item.Cal}</h3>
+        <div className="Item" key={item.BookId}>
+          <h1>{item.BookName}</h1>
+          <h3>{item.Description}</h3>
         </div>
       ))}
     </div>
