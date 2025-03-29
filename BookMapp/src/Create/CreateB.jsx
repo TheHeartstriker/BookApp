@@ -7,6 +7,11 @@ function BookCreater() {
   const { isSignedIn, setIsSignedIn } = useContext(Context);
   const [BookName, setBookName] = useState("");
   const [BookDes, setBookDes] = useState("");
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setIsSignedIn(false);
+    alert("You need to be signed in to create a book");
+  }
   //Ref for the border ani
   const borderRef = useRef(null);
 
@@ -31,10 +36,7 @@ function BookCreater() {
 
   //Create a book and sends it to the server
   async function addTask(task, description) {
-    // Unique id for each task
-    const id = uuidv4();
     const newTask = {
-      BookId: id,
       BookName: task,
       Description: description,
     };
@@ -43,25 +45,30 @@ function BookCreater() {
       await sendTaskData(newTask);
     }
   }
-  //Sends the individual task data to the server
   async function sendTaskData(datatosend) {
+    console.log("Token:", token);
+
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
       body: JSON.stringify(datatosend),
     };
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/addBook`,
         options
       );
-      if (response.status === 401 || response.status === 400) {
-        console.error("Unauthorized access or bad request");
-        alert("Failed to create task. Please check your inputs.");
-        return;
+      console.log("Response status:", response.status);
+      const responseData = await response.json();
+      console.log("Response data:", responseData);
+
+      if (!response.ok) {
+        alert(responseData.message);
+        console.error("Error:", responseData.message);
       }
     } catch (error) {
       console.error("Error:", error);

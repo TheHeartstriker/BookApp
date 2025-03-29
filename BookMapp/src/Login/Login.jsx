@@ -8,57 +8,29 @@ function LoginPage() {
   //Stores the username and password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   //Used to see which button name and function to use
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
-  //Used in junction with the animation to stop the user from clicking multiple times
   const [CanClick, setCanClick] = useState(true);
-  //Refrence to the border
-  const borderRef = useRef(null);
-  //Adds a red border to the input fields to indicate failure
-  function AnimateBorderRed() {
-    const border = borderRef.current;
-    border.classList.add("AnimatePulseRed");
-    setCanClick(false);
-    setTimeout(() => {
-      border.classList.remove("AnimatePulseRed");
-      setCanClick(true);
-    }, 1500);
-  }
-  //Adds a green border to the input fields to indicate success
-  function AnimateBorderGreen() {
-    const border = borderRef.current;
-    border.classList.add("AnimatePulseGreen");
-    setCanClick(false);
-    setTimeout(() => {
-      setCanClick(true);
-      border.classList.remove("AnimatePulseGreen");
-    }, 1500);
-  }
-  //Handling the event changes for the username
-  const handleUsernameChange = (event) => {
-    if (event.target.value.length > 49) {
-      alert("Username is too long");
+
+  function handleNameChange(event, type) {
+    if (event.target.value.length > 249) {
+      alert("Name is too long");
       return;
     }
     if (event.target.value.includes(" ")) {
-      alert("Username cannot contain spaces");
+      alert("Value cannot contain spaces");
     } else {
-      setUsername(event.target.value);
+      if (type === "username") {
+        setUsername(event.target.value);
+      } else if (type === "password") {
+        setPassword(event.target.value);
+      } else {
+        setEmail(event.target.value);
+      }
     }
-  };
-  //Handling the event changes for the password
-  const handlePasswordChange = (event) => {
-    if (event.target.value.length > 49) {
-      alert("Password is too long");
-      return;
-    }
-    if (event.target.value.includes(" ")) {
-      alert("Password cannot contain spaces");
-    } else {
-      setPassword(event.target.value);
-    }
-  };
+  }
   //Switch between login and signup
   const handleSwitch = () => {
     if (login) {
@@ -91,7 +63,7 @@ function LoginPage() {
       },
       credentials: "include",
       body: JSON.stringify({
-        username,
+        email,
         password,
       }),
     };
@@ -102,14 +74,13 @@ function LoginPage() {
         options
       );
       const responseData = await response.json();
-      if (responseData.success) {
-        AnimateBorderGreen();
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.setItem("token", responseData.token);
         setIsSignedIn(true);
+        alert("Login successful!");
       } else {
-        //If the login fails
-        AnimateBorderRed();
-        setIsSignedIn(false);
-        alert("Incorrect username or password");
+        alert(responseData.message || "Login failed");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -117,12 +88,6 @@ function LoginPage() {
   };
   //Sends the data to the server to be inserted into the database
   const handleSignup = async () => {
-    if ((await CheckIfInUse(username)) === true) {
-      alert("Username is already in use");
-      AnimateBorderRed();
-      return;
-    }
-    let UserId = uuidv4();
     const options = {
       method: "POST",
       headers: {
@@ -132,44 +97,29 @@ function LoginPage() {
       body: JSON.stringify({
         username,
         password,
-        UserId,
+        email,
       }),
     };
-    try {
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/signup`, options);
-      setIsSignedIn(true);
-      AnimateBorderGreen();
-    } catch (error) {
-      AnimateBorderRed();
-      console.error("Error:", error);
-    }
-  };
-  //Checks if the username is in use by sending the username to the server and returning a response
-  async function CheckIfInUse() {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username }),
-    };
+
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/checkUsername`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/register`,
         options
       );
       const responseData = await response.json();
-      console.log("Name in use", responseData);
-      if (responseData) {
-        return true;
+
+      if (response.ok) {
+        localStorage.setItem("token", responseData.token);
+        setIsSignedIn(true);
+        alert("Registration successful!");
       } else {
-        return false;
+        alert(responseData.message || "Registration failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("Registration failed");
     }
-  }
-
+  };
   return (
     <>
       {/* Outside container */}
@@ -182,10 +132,9 @@ function LoginPage() {
           </div>
           <div className="input-group">
             <input
-              ref={borderRef}
               type="text"
               value={username}
-              onChange={handleUsernameChange}
+              onChange={(e) => handleNameChange(e, "username")}
             />
           </div>
           <div className="UP-Container">
@@ -195,7 +144,14 @@ function LoginPage() {
             <input
               type="password"
               value={password}
-              onChange={handlePasswordChange}
+              onChange={(e) => handleNameChange(e, "password")}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="gmail"
+              value={email}
+              onChange={(e) => handleNameChange(e, "")}
             />
           </div>
           <div className="Button-Container-Login">
