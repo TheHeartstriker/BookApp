@@ -127,16 +127,20 @@ function LoginPage() {
         {/* The inside container that holds the text boxes */}
         <div className="LogSignPage">
           <h1>Please enter or create an account</h1>
-          <div className="UP-Container">
-            <h2>Username</h2>
-          </div>
-          <div className="input-group">
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => handleNameChange(e, "username")}
-            />
-          </div>
+          {signup && (
+            <>
+              <div className="UP-Container">
+                <h2>Username</h2>
+              </div>
+              <div className="input-group">
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => handleNameChange(e, "username")}
+                />
+              </div>
+            </>
+          )}
           <div className="UP-Container">
             <h2>Password</h2>
           </div>
@@ -146,6 +150,9 @@ function LoginPage() {
               value={password}
               onChange={(e) => handleNameChange(e, "password")}
             />
+          </div>
+          <div className="UP-Container">
+            <h2>Email</h2>
           </div>
           <div className="input-group">
             <input

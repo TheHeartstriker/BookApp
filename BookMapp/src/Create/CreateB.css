@@ -1,12 +1,18 @@
-/* Create todo styles */
 :root {
-  --Dark-pink: hsl(340, 76%, 50%);
-  --Light-pink: hsl(355, 100%, 81%);
-  --Middle-Pink: #ff577e;
-  --Cyan: rgb(43, 195, 226);
-  --Light-Cyan: rgb(150, 195, 226);
-  /* Neutral silver blue */
-  --Silver-Blue: rgb(200, 255, 250);
+  /* Main color accents */
+  --Blue-1: #00c4f8;
+  --Blue-2: #008ad3;
+  /* Card backgrounds */
+  --Card-Basic: #1b1b1b;
+  /* Common gradient */
+  --Gradient1: #000e29;
+  --Gradient2: #005ee7;
+  --Gradient3: #00d4ff;
+  /* Common text */
+  --Text-White: #ffffff;
+  --Text-Blue: #00d4ff;
+  /* Basic background 'filler' space */
+  --Background: #0a0a0a;
 }
 
 .CreatorContainer {
@@ -16,6 +22,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: var(--Background);
 }
 
 /* The box that containers the container related elements */
@@ -25,9 +32,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 5px solid lightpink;
+  border: 5px solid white;
   border-radius: 10px;
-  background-color: hsl(0, 5%, 15%);
+  background-color: var(--Card-Basic);
   color: #ffffff;
   padding: 10px;
 }
@@ -62,7 +69,12 @@
   left: 10px;
   border: 5px solid var(--Silver-Blue);
   border-radius: 50%;
-  background-image: radial-gradient(circle, var(--Cyan), hsl(340, 76%, 50%));
+  background-image: linear-gradient(
+    to bottom right,
+    var(--Gradient1),
+    var(--Gradient2) 50%,
+    var(--Gradient3)
+  );
 }
 
 /* The button in the bottom right */
@@ -74,23 +86,30 @@
   right: 10px;
   border: 5px solid var(--Silver-Blue);
   border-radius: 50%;
-  background: radial-gradient(circle, var(--Cyan), hsl(340, 76%, 50%));
+  background: linear-gradient(
+    to bottom right,
+    var(--Gradient1),
+    var(--Gradient2) 50%,
+    var(--Gradient3)
+  );
 }
 
 /* Typing boxes */
 /* Top task in parent element */
 .HeaderTask {
+  position: relative;
   margin: 20px;
   border: none;
-  background-color: hsla(340, 76%, 50%, 0.5);
+  background-color: var(--Blue-1);
   border-radius: 5px;
   height: 10%;
   text-align: center;
 }
 /* Bottom text box */
 .DescriptTask {
+  position: relative;
   border: none;
-  background-color: hsla(355, 100%, 81%, 0.5);
+  background-color: var(--Blue-2);
   border-radius: 5px;
   height: 70%;
   text-align: center;

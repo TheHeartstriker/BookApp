@@ -14,6 +14,7 @@ import BookCreater from "./Create/CreateB";
 import ViewBooks from "./View/View";
 //Provider import for global state management
 import { Provider } from "./Provider";
+import PrivateRoute from "./Route";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -22,8 +23,22 @@ createRoot(document.getElementById("root")).render(
         <Nav />
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/create" element={<BookCreater />} />
-          <Route path="/books" element={<ViewBooks />} />
+          <Route
+            path="/create"
+            element={
+              <PrivateRoute>
+                <BookCreater />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/books"
+            element={
+              <PrivateRoute>
+                <ViewBooks />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </Provider>

@@ -121,7 +121,6 @@ const getProfile = async (req, res, next) => {
 };
 
 const addBook = async (req, res, next) => {
-  console.log(req.body);
   try {
     const BookId = uuidv4();
     const UserId = req.user.userId;
@@ -145,4 +144,71 @@ const addBook = async (req, res, next) => {
   }
 };
 
-export { register, login, getProfile, addBook };
+const getBooks = async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    const userBooks = await books.findAll({
+      where: { UserId: userId },
+    });
+
+    res.status(200).json(userBooks);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteBook = async (req, res, next) => {
+  try {
+    const { BookId } = req.body;
+    const userId = req.user.userId;
+
+    // Check if the book belongs to the user
+    const book = await books.findOne({
+      where: { BookId, UserId: userId },
+    });
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    // Delete the book
+    await books.destroy({
+      where: { BookId },
+    });
+
+    res.status(200).json({ message: "Book deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateBook = async (req, res, next) => {
+  try {
+    const { BookId, field, value } = req.body;
+    const userId = req.user.userId;
+
+    // Check if the book belongs to the user so we avoid updating other users books and avoid errors
+    const book = await books.findOne({
+      where: { BookId, UserId: userId },
+    });
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    // Update the book
+    await books.update({ [field]: value }, { where: { BookId } });
+
+    res.status(200).json({ message: "Book updated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  register,
+  login,
+  getProfile,
+  addBook,
+  getBooks,
+  deleteBook,
+  updateBook,
+};
