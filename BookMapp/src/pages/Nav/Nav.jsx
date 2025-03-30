@@ -10,9 +10,7 @@ function Nav() {
       <div className="NavContent">
         {/* Login */}
         <div
-          className={`NavIcon ${
-            location.pathname === "/login" ? "Active" : ""
-          }`}
+          className={`NavIcon ${location.pathname === "/" ? "Active" : ""}`}
           onClick={() => navigate("/")}
         >
           <h1>Login</h1>
