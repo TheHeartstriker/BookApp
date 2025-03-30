@@ -1,5 +1,6 @@
 // Logs request details, validates ip's
 //Atached via app.use(routeMiddleware)
+//For debugging and the like
 
 const exp = require("constants");
 const { Logger, validateIp } = require("../utils");

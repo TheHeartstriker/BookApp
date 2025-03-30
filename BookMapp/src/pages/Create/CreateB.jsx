@@ -1,17 +1,13 @@
 import { useState, useContext, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Context } from "../Provider";
+import { sendTaskData } from "../../services/ApiNonAuth";
 
 function BookCreater() {
   //User Id thats saved in Login.jsx and sent to the server when creating new tasks
-  const { isSignedIn, setIsSignedIn } = useContext(Context);
   const [BookName, setBookName] = useState("");
   const [BookDes, setBookDes] = useState("");
   const token = localStorage.getItem("token");
-  if (!token) {
-    setIsSignedIn(false);
-    alert("You need to be signed in to create a book");
-  }
+
   //Ref for the border ani
   const borderRef = useRef(null);
 
@@ -40,40 +36,10 @@ function BookCreater() {
       BookName: task,
       Description: description,
     };
-    // Data sent to the server
-    if (isSignedIn) {
-      await sendTaskData(newTask);
-    }
+
+    await sendTaskData(newTask, token);
   }
-  async function sendTaskData(datatosend) {
-    console.log("Token:", token);
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(datatosend),
-    };
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/addBook`,
-        options
-      );
-      console.log("Response status:", response.status);
-      const responseData = await response.json();
-      console.log("Response data:", responseData);
-
-      if (!response.ok) {
-        alert(responseData.message);
-        console.error("Error:", responseData.message);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
   //Reset button on click
   const handleReset = () => {
     setTaskName("");

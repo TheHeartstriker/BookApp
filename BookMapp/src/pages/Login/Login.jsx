@@ -1,17 +1,14 @@
 import { useState, useRef, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Context } from "../Provider";
+import { handleLogin, handleSignup } from "../../services/ApiAuth";
 import { useNavigate } from "react-router-dom";
 function LoginPage() {
-  //Important context values used across the app
-  const { isSignedIn, setIsSignedIn } = useContext(Context);
   //Stores the username and password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   //Used to see which button name and function to use
   const [login, setLogin] = useState(false);
-  const [signup, setSignup] = useState(false);
   const [CanClick, setCanClick] = useState(true);
 
   function handleNameChange(event, type) {
@@ -35,91 +32,27 @@ function LoginPage() {
   const handleSwitch = () => {
     if (login) {
       setLogin(false);
-      setSignup(true);
     } else {
       setLogin(true);
-      setSignup(false);
     }
   };
   //Calls the login or sign up function depending on the state of the login variable
-  const handleSignOrLog = () => {
+  const handleSignOrLog = async () => {
     if (!CanClick) {
       return;
     }
+
     if (login) {
-      handleLogin();
+      await handleLogin(email, password); //
     } else {
-      handleSignup();
+      await handleSignup(email, password, username);
     }
   };
 
-  //Sends the sign up data to be checked by the server and returns a response
-  //The response returns a true value if the sign up was successful that is used in creating tasks
-  const handleLogin = async () => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    };
+  useEffect(() => {
+    console.log(login);
+  }, []);
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/login`,
-        options
-      );
-      const responseData = await response.json();
-      if (response.ok) {
-        localStorage.removeItem("token");
-        localStorage.setItem("token", responseData.token);
-        setIsSignedIn(true);
-        alert("Login successful!");
-      } else {
-        alert(responseData.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-  //Sends the data to the server to be inserted into the database
-  const handleSignup = async () => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-      }),
-    };
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/register`,
-        options
-      );
-      const responseData = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("token", responseData.token);
-        setIsSignedIn(true);
-        alert("Registration successful!");
-      } else {
-        alert(responseData.message || "Registration failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Registration failed");
-    }
-  };
   return (
     <>
       {/* Outside container */}
@@ -127,7 +60,7 @@ function LoginPage() {
         {/* The inside container that holds the text boxes */}
         <div className="LogSignPage">
           <h1>Please enter or create an account</h1>
-          {signup && (
+          {!login && (
             <>
               <div className="UP-Container">
                 <h2>Username</h2>
