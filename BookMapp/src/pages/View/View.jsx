@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchData, deleteBook, updateBook } from "../../services/ApiNonAuth";
 function ViewBooks() {
-  const [data, setData] = useState([]);
-  //Full elements with related data one for each user
   const [item, setItem] = useState([]);
 
-  //Used to reload the useeffect telling function to run and load the tabs
-  const [Datafetched, setDataFetched] = useState(false);
-  //The amount of tabs loaded
-  const [LoadedAmount, setLoadedAmount] = useState(8);
   const token = localStorage.getItem("token");
 
-  //Updates book takes | id, hashkey, and value
+  //Updates book books | id, hashkey, and value
   async function handleEdit(id, field, value) {
     setItem((prevItems) =>
       prevItems.map((item) =>
@@ -20,23 +14,18 @@ function ViewBooks() {
     );
     await updateBook(id, field, value, token);
   }
-
+  //Fetches the data from the server and sets it to the item state
   useEffect(() => {
     const fetchDataAsync = async () => {
-      try {
-        const data = await fetchData(token);
-        console.log(data);
-        setItem(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      const data = await fetchData(token);
+      setItem(data);
     };
 
     fetchDataAsync();
   }, []);
 
   return (
-    <div className="ShareContainer">
+    <div className="BookContainer">
       {item.map((item) => (
         <div className="Item" key={item.BookId}>
           <h1

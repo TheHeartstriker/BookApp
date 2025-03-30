@@ -1,5 +1,5 @@
-//Sends the sign up data to be checked by the server and returns a response
-//The response returns a true value if the sign up was successful that is used in creating tasks
+// This file contains the functions that handle the authentication of the user
+// Login function sends the data to the server to be checked if the user exists and if the password is correct
 export const handleLogin = async (email, password) => {
   const options = {
     method: "POST",

@@ -120,6 +120,10 @@ const getProfile = async (req, res, next) => {
   }
 };
 
+//
+//Add book data
+//
+
 const addBook = async (req, res, next) => {
   try {
     const BookId = uuidv4();
@@ -143,7 +147,9 @@ const addBook = async (req, res, next) => {
     next(error);
   }
 };
-
+//
+// Fetch books
+//
 const getBooks = async (req, res, next) => {
   try {
     const userId = req.user.userId;
@@ -156,7 +162,9 @@ const getBooks = async (req, res, next) => {
     next(error);
   }
 };
-
+//
+// Delete book
+//
 const deleteBook = async (req, res, next) => {
   try {
     const { BookId } = req.body;
@@ -180,6 +188,9 @@ const deleteBook = async (req, res, next) => {
     next(error);
   }
 };
+//
+// Update book
+//
 
 const updateBook = async (req, res, next) => {
   try {

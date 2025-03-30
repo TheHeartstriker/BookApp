@@ -1,7 +1,5 @@
 import { useState, useRef, useContext, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { handleLogin, handleSignup } from "../../services/ApiAuth";
-import { useNavigate } from "react-router-dom";
 function LoginPage() {
   //Stores the username and password
   const [username, setUsername] = useState("");
@@ -9,7 +7,6 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   //Used to see which button name and function to use
   const [login, setLogin] = useState(false);
-  const [CanClick, setCanClick] = useState(true);
 
   function handleNameChange(event, type) {
     if (event.target.value.length > 249) {
@@ -38,20 +35,12 @@ function LoginPage() {
   };
   //Calls the login or sign up function depending on the state of the login variable
   const handleSignOrLog = async () => {
-    if (!CanClick) {
-      return;
-    }
-
     if (login) {
       await handleLogin(email, password); //
     } else {
       await handleSignup(email, password, username);
     }
   };
-
-  useEffect(() => {
-    console.log(login);
-  }, []);
 
   return (
     <>
@@ -60,6 +49,7 @@ function LoginPage() {
         {/* The inside container that holds the text boxes */}
         <div className="LogSignPage">
           <h1>Please enter or create an account</h1>
+          {/* Username */}
           {!login && (
             <>
               <div className="UP-Container">
@@ -74,6 +64,7 @@ function LoginPage() {
               </div>
             </>
           )}
+          {/* Password */}
           <div className="UP-Container">
             <h2>Password</h2>
           </div>
@@ -84,6 +75,7 @@ function LoginPage() {
               onChange={(e) => handleNameChange(e, "password")}
             />
           </div>
+          {/* Email */}
           <div className="UP-Container">
             <h2>Email</h2>
           </div>

@@ -1,12 +1,10 @@
 import express from "express";
 import cors from "cors";
-import mysql from "mysql2/promise";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
 import routes from "./Routes.js";
 import errorHandler from "./MiddleWare/ErrorAuthMiddle.js";
-import sequelize from "./Config/ConfigDb.js";
 //import routeMiddleware from "./MiddleWare/RouteMiddle.js";
+
 //Configures the environment variables and express
 dotenv.config();
 const app = express();
@@ -23,7 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use(cookieParser()); //To store tokens if needed
 //Route Middleware
 //app.use(routeMiddleware);
 app.use(errorHandler);

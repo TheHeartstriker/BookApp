@@ -17,8 +17,7 @@ export async function sendTaskData(datatosend, token) {
     const responseData = await response.json();
     console.log(responseData, "Response from addBook");
     if (!response.ok) {
-      alert(responseData.message);
-      console.error("Error:", responseData.message);
+      alert(responseData.message || "Error adding book");
     }
   } catch (error) {
     console.error("Error:", error);
@@ -41,7 +40,7 @@ export async function fetchData(token) {
     );
     const data = await response.json();
     if (!response.ok) {
-      alert("Error fetching data");
+      alert(response.message || "Error fetching data");
       return;
     }
     return data;
@@ -68,7 +67,7 @@ export async function deleteBook(id, token) {
       options
     );
     if (!response.ok) {
-      alert("Error deleting book");
+      alert(response.message || "Error deleting book");
       return;
     }
   } catch (error) {
@@ -96,7 +95,7 @@ export async function updateBook(id, field, value, token) {
       options
     );
     if (!response.ok) {
-      alert("Error updating book");
+      alert(response.message || "Error updating book");
       return;
     }
   } catch (error) {

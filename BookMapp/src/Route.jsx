@@ -5,6 +5,7 @@ function PrivateRoute({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   //const location = useLocation();
 
+  //Sends a empty request to the server to check if the token is valid and therefore allows access to the pages
   useEffect(() => {
     async function validate() {
       const token = localStorage.getItem("token");
@@ -12,7 +13,6 @@ function PrivateRoute({ children }) {
         setIsAuthenticated(false);
         return;
       }
-
       const options = {
         method: "GET",
         headers: {

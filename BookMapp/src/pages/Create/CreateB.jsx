@@ -1,5 +1,4 @@
 import { useState, useContext, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { sendTaskData } from "../../services/ApiNonAuth";
 
 function BookCreater() {
@@ -7,9 +6,6 @@ function BookCreater() {
   const [BookName, setBookName] = useState("");
   const [BookDes, setBookDes] = useState("");
   const token = localStorage.getItem("token");
-
-  //Ref for the border ani
-  const borderRef = useRef(null);
 
   //Handles the task name and description changes
   const handleBookName = (event) => {
@@ -53,7 +49,7 @@ function BookCreater() {
   return (
     <>
       <div className="CreatorContainer">
-        <div className="Creator" ref={borderRef}>
+        <div className="Creator">
           <input
             type="text"
             className="HeaderTask"
