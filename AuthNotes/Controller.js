@@ -5,6 +5,7 @@ import User from "../models/user.model";
 //
 // Register
 // Quries using the model
+// The code also suggests the use of local storage to store the token's rather than cookies
 //
 const register = async (req, res, next) => {
   try {

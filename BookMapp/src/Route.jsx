@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 
 function PrivateRoute({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  //const location = useLocation();
+  const location = useLocation();
 
   //Sends a empty request to the server to check if the token is valid and therefore allows access to the pages
   useEffect(() => {
@@ -27,8 +27,11 @@ function PrivateRoute({ children }) {
           `${import.meta.env.VITE_API_BASE_URL}/api/validateToken`,
           options
         );
-        console.log(response, "Response from validateToken");
-        setIsAuthenticated(response.ok);
+        if (!response.ok) {
+          setIsAuthenticated(false);
+          return;
+        }
+        setIsAuthenticated(true);
       } catch (error) {
         console.error(error);
         setIsAuthenticated(false);
@@ -36,8 +39,7 @@ function PrivateRoute({ children }) {
     }
 
     validate();
-    //use useLocation to check validation of token continuously
-  }, []);
+  }, [location.pathname]);
 
   //Potential for an actual loading screen here
   if (isAuthenticated === null) {
