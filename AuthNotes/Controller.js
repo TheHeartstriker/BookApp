@@ -35,6 +35,8 @@ const register = async (req, res, next) => {
       { expiresIn: "1d" }
     );
     //Response
+    //Possible security issue here, information such as id, email, and name are being sent in the response body rather than a cookie or signed JWT
+    //Test maybe?
     res.status(201).json({
       message: "User created successfully",
       token,
@@ -75,6 +77,8 @@ const login = async (req, res, next) => {
       { expiresIn: "1d" }
     );
     //Response
+    //Possible security issue here, information such as id, email, and name are being sent in the response body rather than a cookie or signed JWT
+    //Test maybe?
     res.json({
       message: "Logged in successfully",
       token,

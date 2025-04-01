@@ -36,7 +36,7 @@ function LoginPage() {
   //Calls the login or sign up function depending on the state of the login variable
   const handleSignOrLog = async () => {
     if (login) {
-      await handleLogin(email, password); //
+      await handleLogin(email, password);
     } else {
       await handleSignup(email, password, username);
     }
